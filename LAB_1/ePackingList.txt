@@ -1,0 +1,10 @@
+sPackingList.txt:
+----------------------
+
+Correct unzipping should yield the following:
+
+1. This file
+2. Instruction sheet for the Lab 1.
+3. Folder containng two Python scripts 
+	- publisher.py
+	- subscriber.py
