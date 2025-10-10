@@ -20,7 +20,7 @@ def compute_and_match_sift(img1_gray, img5_gray):
     
     good_matches = []
     for m, n in matches:
-        if m.distance < 0.75 * n.distance:
+        if m.distance < 0.8 * n.distance:
             good_matches.append(m)
     
     return kp1, kp5, good_matches
@@ -36,39 +36,71 @@ def visualize_matches(img1, img5, kp1, kp5, good_matches):
     plt.savefig('sift_matches.png', dpi=150, bbox_inches='tight')
     plt.close()
 
+def normalize_points(pts):
+    centroid = np.mean(pts, axis=0)
+    pts_centered = pts - centroid
+    avg_dist = np.mean(np.sqrt(np.sum(pts_centered**2, axis=1)))
+    scale = np.sqrt(2) / avg_dist
+    
+    T = np.array([[scale, 0, -scale * centroid[0]],
+                  [0, scale, -scale * centroid[1]],
+                  [0, 0, 1]])
+    
+    return T
+
 def compute_homography(src_pts, dst_pts):
+    T_src = normalize_points(src_pts)
+    T_dst = normalize_points(dst_pts)
+    
+    src_normalized = (T_src @ np.hstack([src_pts, np.ones((len(src_pts), 1))]).T).T
+    dst_normalized = (T_dst @ np.hstack([dst_pts, np.ones((len(dst_pts), 1))]).T).T
+    
+    src_normalized = src_normalized[:, :2]
+    dst_normalized = dst_normalized[:, :2]
+    
     A = []
-    for i in range(len(src_pts)):
-        x, y = src_pts[i][0], src_pts[i][1]
-        u, v = dst_pts[i][0], dst_pts[i][1]
+    for i in range(len(src_normalized)):
+        x, y = src_normalized[i][0], src_normalized[i][1]
+        u, v = dst_normalized[i][0], dst_normalized[i][1]
         A.append([-x, -y, -1, 0, 0, 0, u*x, u*y, u])
         A.append([0, 0, 0, -x, -y, -1, v*x, v*y, v])
     
     A = np.array(A)
     U, S, Vt = np.linalg.svd(A)
-    H = Vt[-1].reshape(3, 3)
+    H_normalized = Vt[-1].reshape(3, 3)
+    
+    H = np.linalg.inv(T_dst) @ H_normalized @ T_src
     H = H / H[2, 2]
+    
     return H
 
-def ransac_homography(src_pts, dst_pts, num_iterations=5000, threshold=5.0):
+def ransac_homography(src_pts, dst_pts, num_iterations=10000, threshold=3.0):
     max_inliers = []
     best_H = None
+    n_points = len(src_pts)
     
-    for _ in range(num_iterations):
-        idx = np.random.choice(len(src_pts), 4, replace=False)
+    for iteration in range(num_iterations):
+        idx = np.random.choice(n_points, 4, replace=False)
         src_subset = src_pts[idx]
         dst_subset = dst_pts[idx]
         
         try:
             H = compute_homography(src_subset, dst_subset)
             
-            src_pts_homogeneous = np.hstack([src_pts, np.ones((src_pts.shape[0], 1))])
+            if H is None or np.any(np.isnan(H)) or np.any(np.isinf(H)):
+                continue
+            
+            src_pts_homogeneous = np.hstack([src_pts, np.ones((n_points, 1))])
             projected = (H @ src_pts_homogeneous.T).T
             
-            if np.any(np.abs(projected[:, 2]) < 1e-8):
+            z_coords = projected[:, 2]
+            if np.any(np.abs(z_coords) < 1e-8):
                 continue
                 
-            projected = projected[:, :2] / projected[:, 2:3]
+            projected = projected[:, :2] / z_coords.reshape(-1, 1)
+            
+            if np.any(np.isnan(projected)) or np.any(np.isinf(projected)):
+                continue
             
             distances = np.sqrt(np.sum((projected - dst_pts) ** 2, axis=1))
             inliers = distances < threshold
@@ -76,6 +108,9 @@ def ransac_homography(src_pts, dst_pts, num_iterations=5000, threshold=5.0):
             if np.sum(inliers) > len(max_inliers):
                 max_inliers = inliers
                 best_H = H
+                
+                if np.sum(inliers) > 0.8 * n_points:
+                    break
         except:
             continue
     
