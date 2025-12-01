@@ -1,0 +1,23 @@
+from onvif import ONVIFCamera
+
+# Replace with your actual camera IP and port
+ip = "192.168.1.64"   # example
+port = 80             # ONVIF port, default is usually 80 or 8000
+user = "admin"
+password = "Rysera@12"
+
+# Create camera object (with Digest auth handled internally)
+mycam = ONVIFCamera(ip, port, user, password)
+
+# Create PTZ service
+ptz = mycam.create_ptz_service()
+
+# Get available profiles
+media_service = mycam.create_media_service()
+profiles = media_service.GetProfiles()
+profile = profiles[0]   # usually the first profile is the main stream
+
+# Get PTZ configuration options
+options = ptz.GetConfigurationOptions({'ConfigurationToken': profile.PTZConfiguration.token})
+
+print("PTZ Configuration Options:", options)
