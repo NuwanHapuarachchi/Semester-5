@@ -14,9 +14,21 @@ IoT-enabled strawberry cultivation dashboard that mirrors the reference UI while
 ```bash
 npm install
 npm run dev
+# or, if port 3000 is blocked, npx next dev -p 4000
 ```
 
 Open `http://localhost:3000` to view the dashboard.
+
+### Navigation
+
+All routes share the same glassmorphic sidebar to keep the theme consistent:
+
+- `/` Overview: hero weather card, KPI grid, devices, camera, and tasks preview.
+- `/details`: proposal context, SMART goals, and optimal parameter table.
+- `/plant`: section-by-section health with analytic CCTV hero.
+- `/tasks`: ritual tracker with timeline flow.
+- `/devices`: fleet status with online/issue/offline highlights.
+- `/activity`: alert log plus architecture and security notes.
 
 ### Firebase setup
 
