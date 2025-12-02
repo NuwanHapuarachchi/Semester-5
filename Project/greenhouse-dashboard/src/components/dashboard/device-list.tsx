@@ -19,7 +19,7 @@ const iconForType = (type: string) => {
 
 export const DeviceList = ({ devices }: Props) => {
   return (
-    <section className="rounded-[32px] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+    <section className="h-full w-full rounded-[32px] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
       <div className="mb-4 flex items-center justify-between">
         <p className="text-lg font-semibold text-slate-900">Device</p>
         <span className="text-sm text-slate-500">Sensor {devices.length}</span>

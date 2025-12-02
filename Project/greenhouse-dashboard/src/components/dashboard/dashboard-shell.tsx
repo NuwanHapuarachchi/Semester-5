@@ -18,14 +18,22 @@ export const DashboardShell = ({ data, loading }: Props) => {
     <PageFrame active="overview">
       <HeaderBar sector={data.overview.zone} alerts={data.alerts} loading={loading} />
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 xl:col-span-8 space-y-6">
+        <div className="col-span-12 xl:col-span-8 flex">
           <OverviewPanel overview={data.overview} />
+        </div>
+        <div className="col-span-12 xl:col-span-4 flex">
+          <DeviceList devices={data.devices} />
+        </div>
+        <div className="col-span-12 xl:col-span-8">
           <MetricGrid metrics={data.metrics} />
+        </div>
+        <div className="col-span-12 xl:col-span-4 flex">
+          <CameraPanel camera={data.camera} />
+        </div>
+        <div className="col-span-12 xl:col-span-8 flex">
           <SectionPanel sections={data.sections} />
         </div>
-        <div className="col-span-12 xl:col-span-4 space-y-6">
-          <DeviceList devices={data.devices} />
-          <CameraPanel camera={data.camera} />
+        <div className="col-span-12 xl:col-span-4 flex">
           <TaskList tasks={data.tasks} />
         </div>
       </div>

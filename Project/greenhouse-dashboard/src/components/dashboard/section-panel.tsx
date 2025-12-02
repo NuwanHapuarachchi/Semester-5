@@ -13,8 +13,8 @@ const statusTone: Record<SectionHealth["status"], string> = {
 
 export const SectionPanel = ({ sections }: Props) => {
   return (
-    <section className="rounded-[32px] bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,0.08)]">
-      <div className="grid gap-6 lg:grid-cols-2">
+    <section className="h-full w-full rounded-[32px] bg-white p-6 shadow-[0_25px_80px_rgba(15,23,42,0.08)]">
+      <div className="grid h-full gap-6 lg:grid-cols-2">
         <div>
           <div className="mb-4 flex items-center justify-between">
             <div>
@@ -38,7 +38,7 @@ export const SectionPanel = ({ sections }: Props) => {
             ))}
           </div>
         </div>
-        <div className="relative h-[360px] rounded-[32px] bg-gradient-to-br from-emerald-300 via-emerald-100 to-white">
+        <div className="relative min-h-[300px] rounded-[32px] bg-gradient-to-br from-emerald-300 via-emerald-100 to-white">
           <div className="absolute inset-0 rounded-[32px] border-2 border-dashed border-white/60" />
           <div className="absolute left-6 top-6 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700">
             <Leaf className="h-4 w-4 text-emerald-500" />

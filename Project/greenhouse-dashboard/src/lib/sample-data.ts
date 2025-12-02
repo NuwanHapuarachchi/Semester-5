@@ -3,7 +3,7 @@ import { DashboardData } from "./types"
 export const dashboardMock: DashboardData = {
   overview: {
     location: "Nuwara Eliya, Sri Lanka",
-    timestamp: "Mon, 01 December 2025 09:37 AM",
+    timestamp: "live",
     weather: {
       temperature: "22",
       condition: "Partly Cloudy",
@@ -86,7 +86,6 @@ export const dashboardMock: DashboardData = {
       name: "ACE Temperature & Humidity Sensor",
       type: "Sensor",
       status: "issue",
-      note: "Signal issue since 08:02 AM",
     },
     {
       id: "CM042",

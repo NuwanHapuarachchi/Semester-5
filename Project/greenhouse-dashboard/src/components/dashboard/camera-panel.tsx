@@ -7,7 +7,7 @@ type Props = {
 
 export const CameraPanel = ({ camera }: Props) => {
   return (
-    <section className="rounded-[32px] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+    <section className="flex h-full w-full flex-col rounded-[32px] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="text-sm text-slate-500">Live Feed</p>
@@ -18,7 +18,7 @@ export const CameraPanel = ({ camera }: Props) => {
           1/5
         </div>
       </div>
-      <div className="relative h-64 w-full overflow-hidden rounded-[28px] bg-gradient-to-br from-emerald-200 via-emerald-100 to-white">
+      <div className="relative flex-1 w-full overflow-hidden rounded-[28px] bg-gradient-to-br from-emerald-200 via-emerald-100 to-white">
         <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1 text-sm font-medium text-slate-600">
           Analytic
         </div>

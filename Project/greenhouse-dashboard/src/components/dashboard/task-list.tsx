@@ -10,7 +10,7 @@ export const TaskList = ({ tasks }: Props) => {
   const progress = Math.round((done / tasks.length) * 100)
 
   return (
-    <section className="rounded-[32px] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+    <section className="h-full w-full rounded-[32px] bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="text-sm text-slate-500">Task</p>
