@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image"
 import { DashboardData } from "@/lib/types"
 
@@ -6,6 +9,7 @@ type Props = {
 }
 
 export const OverviewPanel = ({ overview }: Props) => {
+  const [showMapView, setShowMapView] = useState(false)
   const realtime = new Date().toLocaleString("en-LK", {
     weekday: "short",
     day: "2-digit",
@@ -52,11 +56,14 @@ export const OverviewPanel = ({ overview }: Props) => {
             className="object-cover"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/70 via-transparent to-slate-900/20" />
-          <span className="absolute left-6 top-6 z-10 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-600 shadow-lg">PL-02J</span>
-          <span className="absolute right-6 top-16 z-10 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg">PL-20T</span>
-          <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-white px-4 py-2 text-xs font-medium text-slate-500 shadow-lg">
+          <button className="absolute left-6 top-6 z-10 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-600 shadow-lg transition hover:bg-slate-50 cursor-pointer">PL-02J</button>
+          <button className="absolute right-6 top-16 z-10 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 cursor-pointer">PL-20T</button>
+          <button
+            onClick={() => setShowMapView(!showMapView)}
+            className={`absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full px-4 py-2 text-xs font-medium shadow-lg transition cursor-pointer ${showMapView ? "bg-slate-900 text-white" : "bg-white text-slate-500 hover:bg-slate-50"}`}
+          >
             Map view
-          </div>
+          </button>
         </div>
       </div>
     </section>
