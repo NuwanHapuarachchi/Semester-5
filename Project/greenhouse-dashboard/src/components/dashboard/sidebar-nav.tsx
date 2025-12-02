@@ -18,11 +18,8 @@ type Props = {
 
 export const SidebarNav = ({ active }: Props) => {
   return (
-    <aside className="flex w-16 flex-col items-center rounded-[32px] bg-white/80 py-6 shadow-[0_25px_80px_rgba(15,23,42,0.12)] backdrop-blur">
-      <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500 text-white text-xl font-semibold">
-        G
-      </div>
-      <div className="flex flex-1 flex-col items-center gap-4">
+    <aside className="flex h-[calc(100vh-4rem)] w-16 flex-col items-center rounded-[32px] bg-white/80 py-6 shadow-[0_25px_80px_rgba(15,23,42,0.12)] backdrop-blur">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4">
         {navItems.map((item) => {
           const Icon = item.icon
           return (
